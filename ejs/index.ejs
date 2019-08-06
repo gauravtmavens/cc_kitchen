@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <% include('header.ejs') %>
+  </head>
+  <body>
+    <% include('body.ejs') %>
+
+    <ul>
+        <% appliances.forEach(function(appliance){ %>
+          <%= appliance.name %>
+        <% })%>
+      </ul>
+
+
+  </body>
+</html>
+

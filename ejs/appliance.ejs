@@ -1,0 +1,256 @@
+<html>
+  <head>
+    <% include('header.ejs') %>
+    <meta charset="utf-8">
+		<title>Login Form</title>
+		<style>
+		body {
+  background-color: #e2e2e2;
+}
+
+.row {
+  margin: 0 auto;
+  width: 280px;
+  clear: both;
+  text-align: center;
+  font-family: 'Exo';
+}
+
+.digit,
+.dig {
+  float: left;
+  padding: 10px 30px;
+  width: 30px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.sub {
+  font-size: 0.8rem;
+  color: grey;
+}
+
+.container {
+  border-radius: 1%;
+  background-color: white;
+  width: 400px;
+  padding: 20px;
+  margin: 30px auto;
+  min-height: 420px;
+  text-align: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#output {
+  font-family: "Exo";
+  font-size: 2rem;
+  height: 60px;
+  font-weight: bold;
+  color: #1976d2;
+}
+
+#call {
+  display: inline-block;
+  background-color: #66bb6a;
+  padding: 4px 30px;
+  margin: 10px;
+  color: white;
+  border-radius: 4px;
+  float: left;
+  cursor: pointer;
+}
+
+.botrow {
+  margin: 0 auto;
+  width: 280px;
+  clear: both;
+  text-align: center;
+  font-family: 'Exo';
+}
+
+.digit:active,
+.dig:active {
+  background-color: #e6e6e6;
+}
+
+#call:hover {
+  background-color: #81c784;
+}
+
+.dig {
+  float: left;
+  padding: 10px 20px;
+  margin: 10px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.button label {
+  display: block;
+  width: 40px;
+  height: 20px;
+  border: 1px solid #dbdbdb;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+.button label::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #888;
+  position: absolute;
+  left: 0;
+  transition: all 0.1s linear;
+}
+.button input[type=checkbox] {
+  position: absolute;
+  top: -99999px;
+  opacity: 0;
+}
+.button input[type=checkbox]:checked + label::before {
+  left: calc(100% - 20px);
+}
+		</style>
+  </head>
+  <body>
+    <% include('body.ejs') %>
+
+    <ul>
+       
+      </ul>
+
+      <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+      
+      <div style="text-align: center;">
+      <img style="width: 25%;" src="http://159.89.202.246:9001/images/logo.png">
+      <div class="container">
+          <h3>Hello 
+                    <%- user[0].fname+' '+user[0].lname %></h3>
+          <h4>Welcome to <%- kitchen_data[0].name %></h4>
+          <input type="hidden" id="kitchen_id" value="<%- kitchen_data[0].id %>">
+          <input type="hidden" id="user_id" value="<%- user[0].id %>">
+        <table style="width:100%;">
+          <thead>
+              <tr>
+                  <th>
+                      Appliance
+                  </th>
+                  <th>
+                      Status
+                  </th>
+                  <th>
+                     Usage Time 
+                  </th>
+              </tr>
+          </thead>
+            <tbody style="text-align: center;">
+                
+                <% appliances.forEach(function(appliance){ %>
+                    <tr>
+                        <th><%= appliance.name %></th>
+                        <td style="display: flex;justify-content: center;">
+                            <div class="button">
+                                <input type="checkbox"  id="switch_btn<%= appliance.id %>" onchange="timer_function('<%= appliance.id %>')">
+                                <label for="switch_btn<%= appliance.id %>"></label>
+                            </div>
+                        </td>
+                        <input type="hidden" class="app_id" value="<%= appliance.id %>">
+                        <td><span id="span<%= appliance.id %>"><time id="timespan<%= appliance.id %>">00:00:00</time></span>
+                            <!-- <button id="start">start</button>
+                            <button id="stop">stop</button>
+                            <button id="clear">clear</button> -->
+                        </td>
+                    </tr>
+                    
+
+                    
+
+
+                <% })%>
+                
+                
+            </tbody>
+        </table>
+      </div>
+      </div>
+  </body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+  var vars = {};
+  var user_id=$('#user_id').val();
+  var kitchen_id=$('#kitchen_id').val();
+  // var user_id=$('#user_id').val();
+  var app_ids = $(".app_id");
+  for(var i = 0; i < app_ids.length; i++){
+    // alert($(inputs[i]).val());
+    var app_id=$(app_ids[i]).val();
+    
+    vars['span' + app_id] = '';
+    vars['seconds' + app_id] = 00;
+    vars['minutes' + app_id] = 00;
+    vars['hours' + app_id] = 00;
+    vars['t' + app_id] = '';
+
+  }
+  
+  
+  
+  function timer(id) {
+    vars['t' + id] = setTimeout(add, 1000, id);
+  }
+  
+  function timer_function(id)
+  {
+  
+      if ($("#switch_btn"+id).is(':checked')) {
+       /* Start timer */
+          timer(id);
+          
+      }
+      else
+      {
+          /* Pause button */
+          // console.log(vars['t' + id]+'d');
+          clearTimeout(vars['t' + id]);
+
+          $.ajax({
+          type: "POST",
+          url: "/update_appliance_usage",
+          data: {'kitchen_id': kitchen_id, 'user_id': user_id, 'appliance_id': id, 'tanent_id': id},
+          cache: false,
+          success: function(data){
+            console.log(data);
+
+          }
+        });
+      }
+  }
+  
+  function add(id) {
+    
+    vars['seconds' + id]++;
+      if (vars['seconds' + id] >= 60) {
+        vars['seconds' + id] = 0;
+        vars['minutes' + id]++;
+          if (vars['minutes' + id] >= 60) {
+            vars['minutes' + id] = 0;
+            vars['hours' + id]++;
+          }
+      }
+      span = document.getElementById('span'+id);
+      span.textContent = (vars['hours' + id] ? (vars['hours' + id] > 9 ? vars['hours' + id] : "0" + vars['hours' + id]) : "00") + ":" + (vars['minutes' + id] ? (vars['minutes' + id] > 9 ? vars['minutes' + id] : "0" + vars['minutes' + id]) : "00") + ":" + (vars['seconds' + id] > 9 ? vars['seconds' + id] : "0" + vars['seconds' + id]);
+  
+      timer(id);
+  }
+  
+  </script>

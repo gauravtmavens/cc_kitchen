@@ -1,0 +1,124 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'ejs' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData ejs
+8 silly fetchNamedPackageData ejs
+9 silly mapToRegistry name ejs
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/ejs
+13 verbose request uri https://registry.npmjs.org/ejs
+14 verbose request no auth needed
+15 info attempt registry request try #1 at 4:12:53 PM
+16 verbose request id 47bdf75ec8189588
+17 verbose etag W/"ef3c9a3252978cd9af0815b7ebbcbfbe"
+18 verbose lastModified Sun, 07 Jul 2019 08:58:33 GMT
+19 http request GET https://registry.npmjs.org/ejs
+20 http 304 https://registry.npmjs.org/ejs
+21 verbose headers { date: 'Mon, 05 Aug 2019 10:42:53 GMT',
+21 verbose headers   connection: 'keep-alive',
+21 verbose headers   'set-cookie':
+21 verbose headers    [ '__cfduid=d1362035dac1a7e25531184b465dcaca91565001773; expires=Tue, 04-Aug-20 10:42:53 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+21 verbose headers   'cf-cache-status': 'HIT',
+21 verbose headers   'cache-control': 'max-age=300',
+21 verbose headers   'cf-ray': '50182abc68d92f15-DEL',
+21 verbose headers   age: '438',
+21 verbose headers   etag: '"ef3c9a3252978cd9af0815b7ebbcbfbe"',
+21 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+21 verbose headers   'last-modified': 'Sun, 07 Jul 2019 08:58:33 GMT',
+21 verbose headers   vary: 'accept-encoding, accept',
+21 verbose headers   'x-amz-meta-rev': '477-1b21067a9096b0f82f014c87e968cb85',
+21 verbose headers   server: 'cloudflare' }
+22 silly get cb [ 304,
+22 silly get   { date: 'Mon, 05 Aug 2019 10:42:53 GMT',
+22 silly get     connection: 'keep-alive',
+22 silly get     'set-cookie':
+22 silly get      [ '__cfduid=d1362035dac1a7e25531184b465dcaca91565001773; expires=Tue, 04-Aug-20 10:42:53 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+22 silly get     'cf-cache-status': 'HIT',
+22 silly get     'cache-control': 'max-age=300',
+22 silly get     'cf-ray': '50182abc68d92f15-DEL',
+22 silly get     age: '438',
+22 silly get     etag: '"ef3c9a3252978cd9af0815b7ebbcbfbe"',
+22 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+22 silly get     'last-modified': 'Sun, 07 Jul 2019 08:58:33 GMT',
+22 silly get     vary: 'accept-encoding, accept',
+22 silly get     'x-amz-meta-rev': '477-1b21067a9096b0f82f014c87e968cb85',
+22 silly get     server: 'cloudflare' } ]
+23 verbose etag https://registry.npmjs.org/ejs from cache
+24 verbose get saving ejs to /home/rahulchhabra/.npm/registry.npmjs.org/ejs/.cache.json
+25 silly install normalizeTree
+26 silly loadCurrentTree Finishing
+27 silly loadIdealTree Starting
+28 silly install loadIdealTree
+29 silly cloneCurrentTree Starting
+30 silly install cloneCurrentTreeToIdealTree
+31 silly cloneCurrentTree Finishing
+32 silly loadShrinkwrap Starting
+33 silly install loadShrinkwrap
+34 silly loadShrinkwrap Finishing
+35 silly loadAllDepsIntoIdealTree Starting
+36 silly install loadAllDepsIntoIdealTree
+37 silly resolveWithNewModule ejs@2.6.2 checking installable status
+38 silly cache add args [ 'ejs', null ]
+39 verbose cache add spec ejs
+40 silly cache add parsed spec Result {
+40 silly cache add   raw: 'ejs',
+40 silly cache add   scope: null,
+40 silly cache add   name: 'ejs',
+40 silly cache add   rawSpec: '',
+40 silly cache add   spec: 'latest',
+40 silly cache add   type: 'tag' }
+41 silly addNamed ejs@latest
+42 verbose addNamed "latest" is being treated as a dist-tag for ejs
+43 info addNameTag [ 'ejs', 'latest' ]
+44 silly mapToRegistry name ejs
+45 silly mapToRegistry using default registry
+46 silly mapToRegistry registry https://registry.npmjs.org/
+47 silly mapToRegistry uri https://registry.npmjs.org/ejs
+48 verbose addNameTag registry:https://registry.npmjs.org/ejs not in flight; fetching
+49 verbose get https://registry.npmjs.org/ejs not expired, no request
+50 silly addNameTag next cb for ejs with tag latest
+51 silly addNamed ejs@2.6.2
+52 verbose addNamed "2.6.2" is a plain semver version for ejs
+53 silly cache afterAdd ejs@2.6.2
+54 verbose afterAdd /home/rahulchhabra/.npm/ejs/2.6.2/package/package.json not in flight; writing
+55 verbose afterAdd /home/rahulchhabra/.npm/ejs/2.6.2/package/package.json written
+56 silly loadAllDepsIntoIdealTree Finishing
+57 silly idealTree:prePrune lib
+57 silly idealTree:prePrune `-- ejs@2.6.2
+58 silly loadIdealTree Finishing
+59 silly currentTree lib
+59 silly currentTree `-- ejs@2.6.2
+60 silly idealTree lib
+60 silly idealTree `-- ejs@2.6.2
+61 silly generateActionsToTake Starting
+62 silly install generateActionsToTake
+63 warn checkPermissions Missing write access to /usr/local/lib/node_modules/ejs
+64 warn checkPermissions Missing write access to /usr/local/lib/node_modules
+65 silly rollbackFailedOptional Starting
+66 silly rollbackFailedOptional Finishing
+67 silly runTopLevelLifecycles Starting
+68 silly runTopLevelLifecycles Finishing
+69 silly install printInstalled
+70 verbose stack Error: EACCES: permission denied, access '/usr/local/lib/node_modules/ejs'
+71 verbose cwd /var/www/html/kitchen
+72 error Linux 5.0.0-23-generic
+73 error argv "/usr/bin/node" "/usr/bin/npm" "install" "-g" "ejs"
+74 error node v8.10.0
+75 error npm  v3.5.2
+76 error path /usr/local/lib/node_modules/ejs
+77 error code EACCES
+78 error errno -13
+79 error syscall access
+80 error Error: EACCES: permission denied, access '/usr/local/lib/node_modules/ejs'
+80 error  { Error: EACCES: permission denied, access '/usr/local/lib/node_modules/ejs'
+80 error   errno: -13,
+80 error   code: 'EACCES',
+80 error   syscall: 'access',
+80 error   path: '/usr/local/lib/node_modules/ejs' }
+81 error Please try running this command again as root/Administrator.
+82 verbose exit [ -13, true ]

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Login Form</title>
+		<style>
+		body {
+  background-color: #e2e2e2;
+}
+
+.row {
+  margin: 0 auto;
+  width: 280px;
+  clear: both;
+  text-align: center;
+  font-family: 'Exo';
+}
+
+.digit,
+.dig {
+  float: left;
+  padding: 10px 30px;
+  width: 30px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.sub {
+  font-size: 0.8rem;
+  color: grey;
+}
+
+.container {
+  border-radius: 1%;
+  background-color: white;
+  width: 320px;
+  padding: 20px;
+  margin: 30px auto;
+  height: 420px;
+  text-align: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#output {
+  font-family: "Exo";
+  font-size: 2rem;
+  height: 60px;
+  font-weight: bold;
+  color: #1976d2;
+}
+
+#call {
+  display: inline-block;
+  background-color: #66bb6a;
+  padding: 4px 30px;
+  margin: 10px;
+  color: white;
+  border-radius: 4px;
+  float: left;
+  cursor: pointer;
+}
+
+.botrow {
+  margin: 0 auto;
+  width: 280px;
+  clear: both;
+  text-align: center;
+  font-family: 'Exo';
+}
+
+.digit:active,
+.dig:active {
+  background-color: #e6e6e6;
+}
+
+#call:hover {
+  background-color: #81c784;
+}
+
+.dig {
+  float: left;
+  padding: 10px 20px;
+  margin: 10px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.button label {
+  display: block;
+  width: 40px;
+  height: 20px;
+  border: 1px solid #dbdbdb;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+.button label::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #888;
+  position: absolute;
+  left: 0;
+  transition: all 0.1s linear;
+}
+.button input[type=checkbox] {
+  position: absolute;
+  top: -99999px;
+  opacity: 0;
+}
+.button input[type=checkbox]:checked + label::before {
+  left: calc(100% - 20px);
+}
+		</style>
+	</head>
+	<body>
+		<link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+<div style="text-align: center;">
+<img style="width: 25%;" src="http://159.89.202.246:9001/images/logo.png">
+<div class="container">
+    <h3>Hello KGaurav</h3>
+    <h5>Welcome to Kitchen 3</h5>
+  <table style="width:100%;">
+    <thead>
+        <tr>
+            <th>
+                Appliance
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+               Usage Time 
+            </th>
+        </tr>
+    </thead>
+      <tbody>
+          <tr>
+              <th>Oven</th>
+              <td style="display: flex;justify-content: center;">
+               <div class="button">
+                    <input type="checkbox" id="some_button">
+                    <label for="some_button"></label>
+                </div>
+              </td>
+              <td>02:11:43</td>
+          </tr>
+          <tr>
+            <th>Burner</th>
+            <td style="display: flex;justify-content: center;">
+             <div class="button">
+                  <input type="checkbox" id="some_button">
+                  <label for="some_button"></label>
+              </div>
+            </td>
+            <td>02:11:43</td>
+        </tr>
+        <tr>
+            <th>Refrigerator</th>
+            <td style="display: flex;justify-content: center;">
+             <div class="button">
+                  <input type="checkbox" id="some_button">
+                  <label for="some_button"></label>
+              </div>
+            </td>
+            <td>02:11:43</td>
+        </tr>
+        <tr>
+            <th>Oven 2</th>
+            <td style="display: flex;justify-content: center;">
+             <div class="button">
+                  <input type="checkbox" id="some_button">
+                  <label for="some_button"></label>
+              </div>
+            </td>
+            <td>02:11:43</td>
+        </tr>
+        <tr>
+            <th>Mixer</th>
+            <td style="display: flex;justify-content: center;">
+             <div class="button">
+                  <input type="checkbox" id="some_button">
+                  <label for="some_button"></label>
+              </div>
+            </td>
+            <td>02:11:43</td>
+        </tr>
+        <tr>
+            <th>Grinder</th>
+            <td style="display: flex;justify-content: center;">
+             <div class="button">
+                  <input type="checkbox" id="some_button">
+                  <label for="some_button"></label>
+              </div>
+            </td>
+            <td>02:11:43</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
+</div>
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active');  
+    
+    if ($(this).find('.btn-primary').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-primary');
+    }
+    if ($(this).find('.btn-danger').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-danger');
+    }
+    if ($(this).find('.btn-success').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-success');
+    }
+    if ($(this).find('.btn-info').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-info');
+    }
+    
+    $(this).find('.btn').toggleClass('btn-default');
+       
+});
+</script>
