@@ -3,19 +3,21 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
-var customModule = require('./customModule');
 
 
 var connection 	= 	mysql.createConnection({
-	host		: 	"localhost",
-	user		: 	"user",
-	password	: 	"password",
+	// host		: 	"localhost",
+	// user		: 	"user",
+	// password	: 	"password",
+	// database	: 	"ccremote"
+	host		: 	"172.11.2.4",
+	user		: 	"root",
+	password	: 	"root_password",
 	database	: 	"ccremote"
 });
 
 var datetime =new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
-module.exorts=connection;
 
 connection.connect(function(err){
 	if(err){
@@ -69,66 +71,48 @@ app.post('/update_appliance_usage', function(request, response) {
 	var kitchen_id = request.body.kitchen_id;
 	var appliance_id = request.body.appliance_id;
 	var user_id = request.body.user_id;
-	var tenant_id = request.body.tenant_id	;
-
+	var tenant_id = request.body.tenant_id;
+	var result_data= {};
 	var promise1 = new Promise(function(resolve, reject) {
 		var usage_result = {};
-		connection.query('SELECT * FROM usages WHERE appliance_id  = ? AND user_id = ? AND kitchen_id = ? AND tenant_id = ?', [appliance_id,user_id,kitchen_id,tenant_id], function(error, results, fields) {
+		var q = connection.query('SELECT * FROM usages WHERE appliance_id  = ? AND user_id = ? AND kitchen_id = ? AND tenant_id = ?', [appliance_id,user_id,kitchen_id,tenant_id], function(error, results, fields) {
 			usage_result.usage=results.length;
 			usage_result.data=results;
 			resolve(usage_result);
 		});
 	});
 	promise1.then(function(value) {
-		console.log(value);
-		
 		var promise2 = new Promise(function(resolve, reject) {
-			var sql = "SELECT * FROM tenants WHERE 	kitchen_id =? AND user_id = ?";
-			var query = connection.query(sql, [kitchen_id,user_id], function(error, results, fields) {
-				resolve(results);
-			});
-			console.log(query.sql);
-
-		});
-		promise2.then(function(value2) {
-
-			if(value.length > 0)
-			{
-
 			
-				var tenant_id=value2[0].id
-				var promise3 = new Promise(function(resolve, reject) {
-					if(value.usage == 1)
-					{
-
-						console.log('yes');
-					}
-					else
-					{
-						var sql = "INSERT INTO usages (kitchen_id, appliance_id, user_id, tenant_id, start, duration, created, modified) VALUES ?";
-						var values = [
-							[kitchen_id, appliance_id, user_id, tenant_id, datetime, '1', datetime, datetime]
-						];
-						var query = connection.query(sql, [values], function(error, results, fields) {
-							resolve(results);
-						});
-						console.log(query.sql);
-						console.log('no');
-					}
-				});
-				promise3.then(function(value3) {
-					// console.log(value2);
-					response.send(value3);
+			if(value.usage == 1)
+			{
+				var usage_data=value.data;
+				var sql = "UPDATE usages SET running = 1 WHERE id = "+usage_data[0].id;
+				var query = connection.query(sql, function(error, update_results, fields) {
+					result_data.message="message";
+					result_data.status="status";
+					result_data.data=update_results;
+					resolve(update_results);
 				});
 			}
 			else
 			{
-				var error={};
-				error.message='Tenant is not avaiable';
-				error.status='error';
-				response.send(error);
+				var sql = "INSERT INTO usages (kitchen_id, appliance_id, user_id, tenant_id, start, duration, created, modified) VALUES ?";
+				var values = [
+					[kitchen_id, appliance_id, user_id, tenant_id, datetime, '1', datetime, datetime]
+				];
+				var query = connection.query(sql, [values], function(error, insert_results, fields) {
+					result_data.message="message";
+					result_data.status="status";
+					result_data.data=insert_results;
+					resolve(insert_results);
+				});
 			}
 		});
+		promise2.then(function(value3) {
+			response.send(value3);
+		});
+			
 		
 	});
 	
@@ -170,7 +154,18 @@ app.post('/auth', function(request, response) {
 
 						promise2.then(function(kitchen_data) {
 							// console.log(kitchen_data);
-							response.render('appliance', { appliances: my_appliances, user: results, kitchen_data: kitchen_data});
+							var promise3 = new Promise(function(resolve, reject) {
+
+								var sql = "SELECT * FROM tenants WHERE 	kitchen_id =? AND user_id = ?";
+								connection.query(sql, [kitchen_data[0].id,results[0].id], function(error, tenant_results, fields) {
+									resolve(tenant_results);
+								});
+
+							});
+							promise3.then(function(tenant_results) {
+								response.render('appliance', { appliances: my_appliances, user: results, kitchen_data: kitchen_data, tenant_results: tenant_results});
+							});
+							
 						});
 						
 					});

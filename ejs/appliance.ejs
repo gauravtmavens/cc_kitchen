@@ -134,6 +134,7 @@
                     <%- user[0].fname+' '+user[0].lname %></h3>
           <h4>Welcome to <%- kitchen_data[0].name %></h4>
           <input type="hidden" id="kitchen_id" value="<%- kitchen_data[0].id %>">
+          <input type="hidden" id="tenant_id" value="<%- tenant_results[0].id %>">
           <input type="hidden" id="user_id" value="<%- user[0].id %>">
         <table style="width:100%;">
           <thead>
@@ -189,6 +190,7 @@
   var vars = {};
   var user_id=$('#user_id').val();
   var kitchen_id=$('#kitchen_id').val();
+  var tenant_id=$('#tenant_id').val();
   // var user_id=$('#user_id').val();
   var app_ids = $(".app_id");
   for(var i = 0; i < app_ids.length; i++){
@@ -226,10 +228,10 @@
           $.ajax({
           type: "POST",
           url: "/update_appliance_usage",
-          data: {'kitchen_id': kitchen_id, 'user_id': user_id, 'appliance_id': id, 'tanent_id': id},
+          data: {'kitchen_id': kitchen_id, 'user_id': user_id, 'appliance_id': id, 'tenant_id': tenant_id},
           cache: false,
           success: function(data){
-            console.log(data);
+            // console.log(data);
 
           }
         });
