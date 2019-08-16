@@ -6,15 +6,18 @@ var path = require('path');
 
 
 var connection 	= 	mysql.createConnection({
-	// host		: 	"localhost",
-	// user		: 	"user",
-	// password	: 	"password",
-	// database	: 	"ccremote"
-	host		: 	"172.11.2.4",
-	user		: 	"root",
-	password	: 	"root_password",
+	host		: 	"localhost",
+	user		: 	"user",
+	password	: 	"password",
 	database	: 	"ccremote"
+	// host		: 	"172.11.2.4",
+	// user		: 	"root",
+	// password	: 	"root_password",
+	// database	: 	"ccremote"
 });
+
+
+var constants = require('./constants');
 
 var datetime =new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
@@ -48,6 +51,15 @@ app.get('/', function(request, response) {
 	// if (request.session.loggedin) {
 	// 	response.send('Welcome back,'+request.session.username+' !');
 	// }
+	var kitchen_id=1;
+	connection.query('SELECT * FROM appliances WHERE kitchen_id  = ? and running = 1', [kitchen_id], function(error, results, fields) {
+		console.log(results);
+		response.render('running_appliance', { running_appliances: results});
+	});
+	
+});
+
+app.get('/login', function(request, response) {
 	response.sendFile(path.join(__dirname + '/login.html'));
 });
 
@@ -67,6 +79,60 @@ app.get('/app', function(request, response) {
 	response.sendFile(path.join(__dirname + '/appliances.html'));
 });
 
+
+app.get('/schedule', function(request, response) {
+	
+	var kitchen_id=1;
+	var datetime =new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+	connection.query('SELECT * FROM schedules WHERE kitchen_id  = ? AND start <=  ? AND end >=  ? ', [kitchen_id,datetime,datetime], function(error, results, fields) {
+		console.log(results);
+		response.render('schedule', { running_appliances: results});
+	});
+});
+
+
+
+app.post('/update_running_status', function(request, response) {
+	var id = request.body.id;
+
+	var promise1 = new Promise(function(resolve, reject) {
+		var usage_result = {};
+		var q = connection.query('SELECT * FROM appliances WHERE id  = ? ', [id], function(error, results, fields) {
+			usage_result.usage=results.length;
+			usage_result.data=results;
+			resolve(usage_result);
+		});
+	});
+	promise1.then(function(value) {
+		
+		var promise2 = new Promise(function(resolve, reject) {
+			var usage_data=value.data;
+			if(usage_data[0].running == 0)
+			{
+				var running_status = 1;
+			}
+			else
+			{
+				var running_status = 0;
+			}
+			var sql = "UPDATE appliances SET running = "+running_status+" WHERE id = "+usage_data[0].id;
+			var query = connection.query(sql, function(error, update_results, fields) {
+				var result_data = {};
+				result_data.message="message";
+				result_data.status="status";
+				result_data.running_status=running_status;
+				resolve(result_data);
+			});
+		});
+		promise2.then(function(value3) {
+			console.log(value3);
+			response.send(value3);
+		});
+
+	});
+
+
+});
 app.post('/update_appliance_usage', function(request, response) {
 	var kitchen_id = request.body.kitchen_id;
 	var appliance_id = request.body.appliance_id;
@@ -120,7 +186,16 @@ app.post('/update_appliance_usage', function(request, response) {
 });
 
 
-app.post('/auth', function(request, response) {
+app.get('/appliances', function(request, response) {
+	if (request.session.loggedin) {
+
+		}
+	else
+	{
+		response.redirect('/');
+	}
+});
+app.post('/appliances', function(request, response) {
 	var pin = request.body.pin;
 	
 	if (pin) {
@@ -163,6 +238,7 @@ app.post('/auth', function(request, response) {
 
 							});
 							promise3.then(function(tenant_results) {
+								request.session.loggedin = true;
 								response.render('appliance', { appliances: my_appliances, user: results, kitchen_data: kitchen_data, tenant_results: tenant_results});
 							});
 							
@@ -231,7 +307,8 @@ app.get('/home', function(request, response) {
 });
 
 app.get('/logout', function(request, response) {
-	request.session.destroy();
+	// request.session.destroy();
+	request.session.loggedin = false;
 	response.redirect('/');
 });
 
@@ -299,10 +376,8 @@ app.post('/auth2', function(request, response) {
 				});
 				
 				console.log(schedule_result);
-				// console.log(query1.sql);
 				console.log(appliance_result);
-				// console.log(schedule_result);
-				// console.log(response);
+				// console.log(schedule
 				response.render('index', { title: 'Hey', message: 'Hello there!' });
 				
 			} 

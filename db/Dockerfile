@@ -1,7 +1,7 @@
 FROM mysql:5.7
 
 
-ADD ccremote.sql /tmp/ccremote.sql
+# ADD ccremote.sql /tmp/ccremote.sql
 
 # ADD ccremote.sql /docker-entrypoint-initdb.d
 

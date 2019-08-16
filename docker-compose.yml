@@ -3,7 +3,7 @@
  networks:
   frontend:
     driver: bridge
-    ipam:
+    ipam:   
       driver: default
       config:
         - subnet: 172.11.1.0/24
